@@ -1,4 +1,4 @@
-name: StartPlugin
+name: ClanPlugin
 version: 1.0
 main: StartPlugin
 commands:
