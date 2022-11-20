@@ -41,7 +41,7 @@ public class DatabaseHandler {
         Clan c = clanDAO.findOne("name", clan);
 
         if(c != null) {
-            Optional<User> u = c.getMembers().stream().filter(e -> e.getUuid() == uuid).findAny();
+            Optional<User> u = c.getMembers().stream().filter(e -> e.getUuid().equals(uuid)).findAny();
             if(u.isPresent()) {
                 return true;
             }
@@ -55,7 +55,7 @@ public class DatabaseHandler {
     }
 
     public boolean isInSameClan(User u1, User u2) {
-        return u1.getClan().getId() == u2.getClan().getId();
+        return u1.getClan().getId().equals(u2.getClan().getId());
     }
 
     public User getUserByPlayer(Player player) {
