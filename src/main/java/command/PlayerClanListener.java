@@ -44,14 +44,10 @@ public class PlayerClanListener implements Listener, CommandExecutor {
                 clan.setMembers(new ArrayList<>());
             }
 
-            clan.getMembers().add(sender);
+            clan.addMember(sender);
 
 
             db.saveClan(clan);
-
-            sender.setClan(clan);
-
-            db.saveUser(sender);
 
             Rank rank = db.getRankByPlayer(player);
 

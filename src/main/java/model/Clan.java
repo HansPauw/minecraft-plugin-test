@@ -21,7 +21,6 @@ public class Clan {
     @Indexed
     private String tag;
 
-    @Reference
     private List<User> members;
 
     public Clan() {
@@ -41,6 +40,14 @@ public class Clan {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addMember(User u) {
+        if(u == null) {
+            return;
+        }
+
+        this.members.add(u);
     }
 
     public String getDescription() {

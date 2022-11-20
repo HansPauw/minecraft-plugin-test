@@ -22,9 +22,8 @@ public class JoinClanCommand implements CommandExecutor {
 
             User sender = db.getUserByPlayer(player);
 
-            String clanName = strings[0];
-
-            if (clanName != null) {
+            if (strings[0] != null) {
+                String clanName = strings[0];
                 Clan clan = db.getClanByName(clanName);
 
                 if(clan == null) {
@@ -32,16 +31,13 @@ public class JoinClanCommand implements CommandExecutor {
                     return false;
                 }
 
-                clan.getMembers().add(sender);
-
-                sender.setClan(clan);
+                clan.addMember(sender);
 
                 Rank rank = db.getRankByPlayer(player);
 
                 player.setDisplayName(rank.getPrefix() + clan.getTag() + player.getName());
                 player.setPlayerListName(rank.getPrefix() + clan.getTag() + player.getName());
 
-                db.saveUser(sender);
                 db.saveClan(clan);
 
                 return true;
