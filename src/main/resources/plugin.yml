@@ -1,0 +1,13 @@
+name: StartPlugin
+version: 1.0
+main: StartPlugin
+commands:
+  mfr:
+    description: Give the target player a specified rank
+    usage: /mfr <player> <rank>
+  c:
+    description: Create a new clan
+    usage: /c <clan>
+  cj:
+    description: Join a clan
+    usage: /cj <clan>
