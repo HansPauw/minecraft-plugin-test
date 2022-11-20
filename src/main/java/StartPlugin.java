@@ -1,7 +1,7 @@
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
+import command.JoinClanCommand;
+import command.PlayerClanListener;
+import command.PlayerRankListener;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class StartPlugin extends JavaPlugin implements Listener {

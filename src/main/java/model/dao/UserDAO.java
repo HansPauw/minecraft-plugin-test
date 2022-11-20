@@ -1,3 +1,6 @@
+package model.dao;
+
+import model.User;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.dao.BasicDAO;
 

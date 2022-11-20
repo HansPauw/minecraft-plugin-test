@@ -1,3 +1,9 @@
+package command;
+
+import model.Clan;
+import model.Rank;
+import model.User;
+import model.dao.DatabaseHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

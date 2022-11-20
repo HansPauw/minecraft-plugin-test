@@ -1,4 +1,9 @@
+package model.dao;
+
 import com.mongodb.MongoClient;
+import model.Clan;
+import model.Rank;
+import model.User;
 import org.bukkit.entity.Player;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;

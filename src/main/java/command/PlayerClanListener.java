@@ -1,3 +1,9 @@
+package command;
+
+import model.Clan;
+import model.Rank;
+import model.User;
+import model.dao.DatabaseHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,6 +27,9 @@ public class PlayerClanListener implements Listener, CommandExecutor {
 
             User sender = db.getUserByPlayer(player);
 
+            if(strings[0] == null) {
+                return false;
+            }
             String clanName = strings[0];
             String clanTag = "["+clanName.substring(0,3)+"]";
             clanTag = clanTag.toUpperCase();

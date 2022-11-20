@@ -1,3 +1,5 @@
+package model;
+
 import org.bukkit.ChatColor;
 
 public enum Rank {
