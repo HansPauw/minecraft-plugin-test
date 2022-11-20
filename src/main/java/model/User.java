@@ -2,15 +2,15 @@ package model;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
-import dev.morphia.annotations.IndexOptions;
 import dev.morphia.annotations.Indexed;
+import org.bson.types.ObjectId;
 
 @Entity(value = "Users")
 public class User {
     @Id
-    private int id;
+    private ObjectId id;
 
-    @Indexed(options = @IndexOptions(unique = true))
+    @Indexed
     private String uuid;
 
     @Indexed
@@ -33,11 +33,11 @@ public class User {
         this.clan = clan;
     }
 
-    public int getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 

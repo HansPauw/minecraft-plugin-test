@@ -3,13 +3,15 @@ package model;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Indexed;
+import dev.morphia.annotations.Reference;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
 @Entity(value = "Clans")
 public class Clan {
     @Id
-    private Long id;
+    private ObjectId id;
 
     @Indexed
     private String name;
@@ -20,16 +22,17 @@ public class Clan {
     @Indexed
     private String tag;
 
+    @Reference
     private List<User> members;
 
     public Clan() {
     }
 
-    public Long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 

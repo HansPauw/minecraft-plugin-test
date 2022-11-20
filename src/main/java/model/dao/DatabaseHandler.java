@@ -24,7 +24,8 @@ public class DatabaseHandler {
         datastore = Morphia.createDatastore(MongoClients.create(uri), "server");
         datastore.ensureIndexes();
 
-        datastore.getMapper().map(User.class, Clan.class);
+        datastore.getMapper().map(User.class);
+        datastore.getMapper().map(Clan.class);
 
     }
 
