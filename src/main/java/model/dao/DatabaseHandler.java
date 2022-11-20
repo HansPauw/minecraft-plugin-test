@@ -1,44 +1,39 @@
 package model.dao;
 
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClients;
+import dev.morphia.Datastore;
+import dev.morphia.Morphia;
 import model.Clan;
 import model.Rank;
 import model.User;
 import org.bukkit.entity.Player;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
+
 
 import java.util.List;
 import java.util.Optional;
 
-public class DatabaseHandler {
-    private MongoClient mc;
-    private Morphia morphia;
-    private Datastore datastore;
-    private UserDAO userDAO;
+import static dev.morphia.query.experimental.filters.Filters.eq;
 
-    private ClanDAO clanDAO;
+public class DatabaseHandler {
+    private final String uri = "mongodb://localhost:27017";
+    private Morphia morphia;
+    private final Datastore datastore;
 
     public DatabaseHandler() {
-        mc = new MongoClient();
-        morphia = new Morphia();
-        morphia.map(User.class);
-        morphia.map(Clan.class);
 
-        datastore = morphia.createDatastore(mc, "server");
+        datastore = Morphia.createDatastore(MongoClients.create(uri), "server");
         datastore.ensureIndexes();
 
-        userDAO = new UserDAO(User.class, datastore);
-        clanDAO = new ClanDAO(Clan.class, datastore);
+        datastore.getMapper().map(User.class, Clan.class);
 
     }
 
     public void saveClan(Clan c) {
-        clanDAO.save(c);
+        datastore.save(c);
     }
 
     public boolean isUserInClan(String clan, String uuid) {
-        Clan c = clanDAO.findOne("name", clan);
+        Clan c = datastore.find("Clans", Clan.class).filter(eq("name", clan)).first();
 
         if(c != null) {
             Optional<User> u = c.getMembers().stream().filter(e -> e.getUuid().equals(uuid)).findAny();
@@ -51,7 +46,7 @@ public class DatabaseHandler {
     }
 
     public Clan getClanByName(String clanname) {
-        return clanDAO.findOne("name", clanname);
+        return datastore.find(Clan.class).filter(eq("name", clanname)).first();
     }
 
     public boolean isInSameClan(User u1, User u2) {
@@ -59,13 +54,13 @@ public class DatabaseHandler {
     }
 
     public User getUserByPlayer(Player player) {
-        User u = userDAO.findOne("uuid", player.getUniqueId().toString());
+        User u = datastore.find(User.class).filter(eq("uuid", player.getUniqueId().toString())).first();
         if(u == null) {
             u = new User();
             u.setUuid(player.getUniqueId().toString());
             u.setRank(Rank.UNDERLING);
             u.setUsername(player.getName());
-            userDAO.save(u);
+            datastore.save(u);
         }
 
         return u;
@@ -83,10 +78,10 @@ public class DatabaseHandler {
     }
 
     public void saveUser(User u) {
-        userDAO.save(u);
+        datastore.save(u);
     }
 
     public List<User> getAllUser() {
-        return userDAO.find().asList();
+        return datastore.find(User.class).iterator().toList();
     }
 }
