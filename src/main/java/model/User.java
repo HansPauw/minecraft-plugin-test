@@ -8,16 +8,16 @@ import org.mongodb.morphia.annotations.Indexed;
 @Entity(value = "Users", noClassnameStored = true)
 public class User {
     @Id
-    public int id;
+    private int id;
 
     @Indexed(options = @IndexOptions(unique = true))
-    public String uuid;
+    private String uuid;
 
     @Indexed
-    public String username;
+    private String username;
 
     @Indexed
-    public Rank rank;
+    private Rank rank;
 
     @Indexed
     private Clan clan;

@@ -25,19 +25,8 @@ public class PlayerRankListener implements Listener, CommandExecutor {
     public void setRank(Player player, Rank rank) {
         ranks.put(player, rank);
         db.updateRank(player, rank);
-        User u = db.getUserByPlayer(player);
 
-        Clan clan =  u.getClan();
-
-        if(clan != null) {
-            player.setDisplayName(rank.getPrefix() + clan.getTag() + player.getName());
-            player.setPlayerListName(rank.getPrefix() + clan.getTag() + player.getName());
-            ranks.put(player, rank);
-        } else {
-            player.setDisplayName(rank.getPrefix() + player.getName());
-            player.setPlayerListName(rank.getPrefix() + player.getName());
-            ranks.put(player, rank);
-        }
+        setPlayerRankDisplay(player, rank);
     }
 
     public void updateRank(Player player, Rank rank) {
@@ -48,9 +37,7 @@ public class PlayerRankListener implements Listener, CommandExecutor {
         return ranks.get(player);
     }
 
-    public void loadRank(Player player) {
-        Rank rank = db.getRankByPlayer(player);
-
+    public void setPlayerRankDisplay(Player player, Rank rank) {
         User u = db.getUserByPlayer(player);
 
         Clan clan =  u.getClan();
@@ -64,6 +51,12 @@ public class PlayerRankListener implements Listener, CommandExecutor {
             player.setPlayerListName(rank.getPrefix() + player.getName());
             ranks.put(player, rank);
         }
+    }
+
+    public void loadRank(Player player) {
+        Rank rank = db.getRankByPlayer(player);
+
+        setPlayerRankDisplay(player, rank);
 
     }
 
@@ -88,11 +81,19 @@ public class PlayerRankListener implements Listener, CommandExecutor {
 
         if(commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if(!player.isOp()) {
+            User sender = db.getUserByPlayer(player);
+
+            if(!player.isOp() || sender.getRank() != Rank.BOSS) {
+                player.sendMessage("You don't have permission to use this command!");
                 return false;
             }
 
-            User sender = db.getUserByPlayer(player);
+
+
+            if(strings[0] == null || strings[1] == null) {
+                player.sendMessage("Please specify a player and a rank!");
+                return false;
+            }
 
 
             String targetPlayerName = strings[0];
